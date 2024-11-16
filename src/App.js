@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import TaskList from './TaskList';
+import AddTask from './AddTask';
+import './App.css'; // Asegúrate de importar el archivo CSS
 
 function App() {
+  const [tasks, setTasks] = useState([]);
+
+  const addTask = (task) => {
+    setTasks([...tasks, task]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="app">
+        <h1>Lista de Tareas</h1>
+        <nav>
+          <Link to="/" className="nav-button">Ver Tareas</Link>
+          <Link to="/add" className="nav-button">Agregar Tarea</Link>
+        </nav>
+        <Routes>
+          <Route path="/" element={<TaskList tasks={tasks} />} />
+          <Route path="/add" element={<AddTask addTask={addTask} />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
